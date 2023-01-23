@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired
@@ -27,4 +27,17 @@ def add_book():
         
         return redirect(url_for('books'))
     return render_template('add_book.html', form=form)
+
+@app.route('/search', methods=['GET', 'POST'])
+def search_book():
+    form = BookForm()
+    if request.method == 'POST':
+        title = request.form.get('title')
+        author = request.form.get('author')
+        search_result = []
+        for book in books:
+            if title.lower() in book['title'].lower() or author.lower() in book['author'].lower():
+                search_result.append(book)
+        return render_template('search.html', form=form, books=search_result)
+    return render_template('search.html', form=form)
 
