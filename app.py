@@ -21,6 +21,11 @@ def get_expenses():
         expenses.sort(key=lambda x: x["amount"])
     return render_template('expenses.html', expenses=expenses)
 
+@app.route('/expense/<int:expense_id>', methods=['DELETE'])
+def delete_expense(expense_id):
+    expenses.pop(expense_id)
+    return jsonify({"message": "Expense deleted successfully"})
+
 @app.route('/expenses')
 def get_expenses():
     return render_template('expenses.html', expenses=expenses)
