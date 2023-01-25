@@ -14,6 +14,13 @@ def add_expense():
     expenses.append({"description": description, "amount": amount})
     return redirect('/expenses')
 
+@app.route('/expenses', methods=['GET'])
+def get_expenses():
+    sort_by = request.args.get("sort_by")
+    if sort_by == "amount":
+        expenses.sort(key=lambda x: x["amount"])
+    return render_template('expenses.html', expenses=expenses)
+
 @app.route('/expenses')
 def get_expenses():
     return render_template('expenses.html', expenses=expenses)
