@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Expense Tracker</title>
+    <title>Expenses</title>
   </head>
   <body>
     <h1>Expenses</h1>
     <table>
-      <tr>
-        <th>Description</th>
-        <th>Amount</th>
-      </tr>
-      {% for expense in expenses %}
-      <tr>
-        <td>{{ expense.description }}</td>
-        <td>{{ expense.amount }}</td>
-      </tr>
-      {% endfor %}
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for expense in expenses %}
+        <tr>
+          <td>{{ expense.description }}</td>
+          <td>{{ expense.amount }}</td>
+          <td>
+            <form action="/expense/{{ loop.index }}" method="post">
+              <input type="hidden" name="_method" value="DELETE">
+              <input type="submit" value="Delete">
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
+    <a href='/'>Add new expense</a>
   </body>
 </html>
